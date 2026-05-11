@@ -96,7 +96,7 @@ export function TradingSignalsTable({ signals, className }: TradingSignalsTableP
                 <div className="text-right shrink-0 hidden sm:block">
                   <div className="text-sm text-muted-foreground">Price</div>
                   <div className="font-mono font-medium">
-                    ${signal.price.toFixed(2)}
+                    ₹{signal.price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </div>
                 </div>
               </motion.div>

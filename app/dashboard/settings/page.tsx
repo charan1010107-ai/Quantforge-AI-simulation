@@ -144,7 +144,7 @@ export default function SettingsPage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="currency">Preferred Currency</Label>
-                    <Input id="currency" placeholder="USD" />
+                    <Input id="currency" placeholder="INR" />
                   </div>
                 </div>
               </div>

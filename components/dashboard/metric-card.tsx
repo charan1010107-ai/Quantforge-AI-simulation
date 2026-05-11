@@ -85,16 +85,16 @@ function formatValue(value: string | number, format: 'currency' | 'percentage' |
   
   switch (format) {
     case 'currency':
-      return new Intl.NumberFormat('en-US', {
+      return new Intl.NumberFormat('en-IN', {
         style: 'currency',
-        currency: 'USD',
+        currency: 'INR',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       }).format(value)
     case 'percentage':
       return `${value.toFixed(2)}%`
     default:
-      return new Intl.NumberFormat('en-US', {
+      return new Intl.NumberFormat('en-IN', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       }).format(value)
