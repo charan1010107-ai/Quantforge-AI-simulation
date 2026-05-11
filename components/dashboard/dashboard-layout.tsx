@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   BarChart3,
@@ -12,10 +12,12 @@ import {
   Gauge,
   LayoutDashboard,
   LineChart,
+  LogOut,
   Menu,
   Settings,
   Shield,
   TrendingUp,
+  User,
   Users,
   X,
   Zap,
@@ -23,7 +25,9 @@ import {
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Sheet, SheetContent } from '@/components/ui/sheet'
+import { createClient } from '@/lib/supabase/client'
+import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -41,8 +45,25 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const pathname = usePathname()
+  const router = useRouter()
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [user, setUser] = useState<SupabaseUser | null>(null)
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user)
+    })
+  }, [])
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true)
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push('/')
+  }
 
   const NavContent = () => (
     <div className="flex flex-col h-full">
@@ -107,6 +128,44 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
           )}
         </div>
+      </div>
+
+      {/* User Profile & Logout */}
+      <div className={cn(
+        "px-4 py-3 border-t border-sidebar-border shrink-0",
+        collapsed && "px-2"
+      )}>
+        {user && (
+          <div className={cn(
+            "flex items-center gap-3 mb-3",
+            collapsed && "justify-center"
+          )}>
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 shrink-0">
+              <User className="h-4 w-4 text-primary" />
+            </div>
+            {!collapsed && (
+              <div className="min-w-0 flex-1">
+                <div className="text-xs font-medium truncate">{user.email}</div>
+                <div className="text-xs text-muted-foreground">Trader</div>
+              </div>
+            )}
+          </div>
+        )}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleLogout}
+          disabled={isLoggingOut}
+          className={cn(
+            "w-full text-muted-foreground hover:text-foreground hover:bg-destructive/10",
+            collapsed ? "justify-center px-2" : "justify-start"
+          )}
+        >
+          <LogOut className="h-4 w-4 shrink-0" />
+          {!collapsed && (
+            <span className="ml-2">{isLoggingOut ? 'Signing out...' : 'Sign out'}</span>
+          )}
+        </Button>
       </div>
 
       {/* Collapse Button - Desktop only */}

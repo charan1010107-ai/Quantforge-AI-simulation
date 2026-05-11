@@ -177,14 +177,14 @@ export default function RiskPage() {
                   <div className="font-medium">VaR (95%)</div>
                   <div className="text-sm text-muted-foreground">1-day holding period</div>
                 </div>
-                <div className="text-xl font-bold">${riskMetrics.var95.toLocaleString()}</div>
+                <div className="text-xl font-bold">₹{riskMetrics.var95.toLocaleString('en-IN')}</div>
               </div>
               <div className="flex items-center justify-between p-3 rounded-lg bg-secondary/50">
                 <div>
                   <div className="font-medium">VaR (99%)</div>
                   <div className="text-sm text-muted-foreground">1-day holding period</div>
                 </div>
-                <div className="text-xl font-bold">${riskMetrics.var99.toLocaleString()}</div>
+                <div className="text-xl font-bold">₹{riskMetrics.var99.toLocaleString('en-IN')}</div>
               </div>
               <div className="text-sm text-muted-foreground p-3 rounded-lg bg-primary/5 border border-primary/20">
                 <strong className="text-primary">AI Analysis:</strong> Portfolio risk is within acceptable bounds. 

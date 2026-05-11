@@ -72,10 +72,10 @@ export function PositionsTable({ positions, className }: PositionsTableProps) {
                       {position.quantity.toLocaleString()}
                     </TableCell>
                     <TableCell className="text-right font-mono">
-                      ${position.currentPrice.toFixed(2)}
+                      ₹{position.currentPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </TableCell>
                     <TableCell className="text-right font-mono">
-                      ${position.marketValue.toLocaleString()}
+                      ₹{position.marketValue.toLocaleString('en-IN')}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className={cn(
@@ -85,7 +85,7 @@ export function PositionsTable({ positions, className }: PositionsTableProps) {
                           : "text-destructive"
                       )}>
                         {position.unrealizedPnL >= 0 ? '+' : ''}
-                        ${position.unrealizedPnL.toLocaleString()}
+                        ₹{position.unrealizedPnL.toLocaleString('en-IN')}
                       </div>
                       <div className={cn(
                         "text-xs",
